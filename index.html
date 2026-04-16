@@ -29,9 +29,8 @@
     --radius: 10px;
     --radius-lg: 14px;
   }
-
   .light {
-    --bg: #f8f9fc;
+    --bg: #f4f6fb;
     --surface: #ffffff;
     --surface2: #f1f3f8;
     --border: #e2e6f0;
@@ -52,266 +51,177 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; transition: background 0.2s, color 0.2s; }
+  body.dark::before { content:''; position:fixed; inset:0; background-image: linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:40px 40px; opacity:0.25; pointer-events:none; z-index:0; }
 
-  body {
-    font-family: 'Pretendard', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.6;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  body.dark::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .app {
-    position: relative;
-    z-index: 1;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
+  .app { position:relative; z-index:1; max-width:1400px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
 
   /* 헤더 */
-  .header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .logo { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
-  .title { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
-  .header-right { display: flex; align-items: center; gap: 16px; }
-  .stats { display: flex; gap: 16px; }
-  .stat { text-align: right; }
-  .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 500; color: var(--accent); line-height: 1; }
-  .stat-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
-
-  /* 다크/라이트 토글 */
-  .theme-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border2);
-    background: var(--surface);
-    cursor: pointer;
-    font-size: 16px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-  .theme-btn:hover { border-color: var(--accent); }
+  .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; padding-bottom:1.2rem; border-bottom:1px solid var(--border); gap:12px; flex-wrap:wrap; }
+  .header-left {}
+  .logo { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:3px; }
+  .title { font-size:22px; font-weight:600; letter-spacing:-0.02em; }
+  .header-right { display:flex; align-items:center; gap:16px; }
+  .stats { display:flex; gap:16px; }
+  .stat { text-align:right; }
+  .stat-num { font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:500; color:var(--accent); line-height:1; }
+  .stat-label { font-size:11px; color:var(--text3); margin-top:2px; }
+  .theme-btn { width:34px; height:34px; border-radius:50%; border:1px solid var(--border2); background:var(--surface); cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+  .theme-btn:hover { border-color:var(--accent); }
 
   /* 연결 상태 */
-  .conn-bar {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 14px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); margin-bottom: 1.2rem;
-    font-size: 12px; color: var(--text2);
-  }
-  .conn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); flex-shrink: 0; transition: background 0.3s; }
-  .conn-dot.ok { background: var(--green); }
-  .conn-dot.err { background: var(--red); }
+  .conn-bar { display:flex; align-items:center; gap:8px; padding:7px 14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:1.2rem; font-size:12px; color:var(--text2); }
+  .conn-dot { width:7px; height:7px; border-radius:50%; background:var(--text3); flex-shrink:0; transition:background 0.3s; }
+  .conn-dot.ok { background:var(--green); }
+  .conn-dot.err { background:var(--red); }
+
+  /* 2단 레이아웃 */
+  .layout { display:grid; grid-template-columns:380px 1fr; gap:1.2rem; align-items:start; }
+
+  /* 왼쪽 패널 */
+  .left-panel { display:flex; flex-direction:column; gap:1rem; position:sticky; top:1.5rem; }
 
   /* 입력 카드 */
-  .input-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.2rem;
-  }
-  .source-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
-  .src-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
-  .src-btn {
-    padding: 4px 12px; border-radius: 20px; font-size: 12px;
-    font-family: 'Pretendard', sans-serif; cursor: pointer;
-    border: 1px solid var(--border2); background: transparent; color: var(--text2); transition: all 0.15s;
-  }
-  .src-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .src-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .input-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.1rem; }
+  .section-label { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px; }
+  .source-row { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+  .src-btn { padding:3px 10px; border-radius:20px; font-size:11px; font-family:'Pretendard',sans-serif; cursor:pointer; border:1px solid var(--border2); background:transparent; color:var(--text2); transition:all 0.15s; }
+  .src-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .src-btn.active { background:var(--accent-dim); border-color:var(--accent); color:var(--accent); }
+  textarea { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:10px; font-size:13px; font-family:'Pretendard',sans-serif; color:var(--text); resize:vertical; min-height:90px; outline:none; transition:border-color 0.15s; line-height:1.6; }
+  textarea:focus { border-color:var(--accent); }
+  textarea::placeholder { color:var(--text3); font-size:12px; }
 
-  textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px; font-size: 14px;
-    font-family: 'Pretendard', sans-serif; color: var(--text);
-    resize: vertical; min-height: 100px; outline: none; transition: border-color 0.15s; line-height: 1.6;
-  }
-  textarea:focus { border-color: var(--accent); }
-  textarea::placeholder { color: var(--text3); }
+  /* 이미지 업로드 */
+  .img-area { margin-top:8px; border:1.5px dashed var(--border2); border-radius:var(--radius); padding:10px 12px; cursor:pointer; transition:all 0.15s; position:relative; }
+  .img-area:hover,.img-area.dragover { border-color:var(--accent); background:var(--accent-dim); }
+  .img-area input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .img-area-label { font-size:11px; color:var(--text3); pointer-events:none; }
+  .img-area-label .hl { color:var(--accent); }
+  .img-preview-list { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .img-preview-item { position:relative; width:64px; height:64px; border-radius:8px; overflow:hidden; border:1px solid var(--border2); }
+  .img-preview-item img { width:100%; height:100%; object-fit:cover; }
+  .img-remove { position:absolute; top:2px; right:2px; width:16px; height:16px; border-radius:50%; background:rgba(0,0,0,0.75); color:white; border:none; cursor:pointer; font-size:10px; display:flex; align-items:center; justify-content:center; }
 
-  .img-area {
-    margin-top: 10px; border: 1.5px dashed var(--border2);
-    border-radius: var(--radius); padding: 14px 16px;
-    cursor: pointer; transition: all 0.15s; position: relative;
-  }
-  .img-area:hover, .img-area.dragover { border-color: var(--accent); background: var(--accent-dim); }
-  .img-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .img-area-label { font-size: 13px; color: var(--text3); pointer-events: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .hl { color: var(--accent); }
-  .img-hint { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  /* 감지된 태그 */
+  .auto-tags { min-height:28px; display:flex; gap:5px; flex-wrap:wrap; margin:8px 0; align-items:center; }
+  .at-label { font-size:11px; color:var(--text3); font-family:'IBM Plex Mono',monospace; }
+  .tag { display:inline-flex; align-items:center; padding:2px 8px; border-radius:20px; font-size:11px; font-family:'IBM Plex Mono',monospace; cursor:pointer; transition:opacity 0.15s; }
+  .tag:hover { opacity:0.75; }
+  .tag-ticker { background:var(--accent-dim); color:var(--accent); border:1px solid var(--accent); }
+  .tag-keyword { background:var(--purple-dim); color:var(--purple); border:1px solid var(--purple); }
+  .tag-category { background:var(--amber-dim); color:var(--amber); border:1px solid var(--amber); }
+  .tag-source { background:var(--green-dim); color:var(--green); border:1px solid var(--green); }
 
-  .img-preview-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-  .img-preview-item { position: relative; width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border2); }
-  .img-preview-item img { width: 100%; height: 100%; object-fit: cover; }
-  .img-remove { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.75); color: white; border: none; cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+  .save-row { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .btn { padding:7px 16px; border-radius:var(--radius); font-size:12px; font-family:'Pretendard',sans-serif; cursor:pointer; border:1px solid var(--border2); background:transparent; color:var(--text2); transition:all 0.15s; }
+  .btn:hover { background:var(--surface2); color:var(--text); }
+  .btn-save { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:500; }
+  .btn-save:hover { opacity:0.88; }
+  .btn-save:disabled { opacity:0.5; cursor:not-allowed; }
 
-  .auto-tags { min-height: 32px; display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; align-items: center; }
-  .at-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+  /* 검색 카드 */
+  .search-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.1rem; }
+  input[type=text] { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:7px 10px; font-size:13px; font-family:'Pretendard',sans-serif; color:var(--text); outline:none; transition:border-color 0.15s; }
+  input[type=text]:focus { border-color:var(--accent); }
+  input[type=text]::placeholder { color:var(--text3); }
+  .date-filters { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+  .date-btn { padding:3px 10px; border-radius:20px; font-size:11px; font-family:'Pretendard',sans-serif; cursor:pointer; border:1px solid var(--border2); background:transparent; color:var(--text2); transition:all 0.15s; }
+  .date-btn:hover { border-color:var(--amber); color:var(--amber); }
+  .date-btn.active { background:var(--amber-dim); border-color:var(--amber); color:var(--amber); }
+  .filter-clear { font-size:11px; color:var(--text3); cursor:pointer; background:none; border:none; font-family:'Pretendard',sans-serif; padding:0; margin-top:6px; display:block; }
+  .filter-clear:hover { color:var(--accent); }
 
-  .tag {
-    display: inline-flex; align-items: center; padding: 3px 9px;
-    border-radius: 20px; font-size: 12px; font-family: 'IBM Plex Mono', monospace;
-    cursor: pointer; transition: opacity 0.15s;
-  }
-  .tag:hover { opacity: 0.75; }
-  .tag-ticker { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
-  .tag-keyword { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple); }
-  .tag-source { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  /* 카테고리 관리 카드 */
+  .cat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.1rem; }
+  .cat-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .cat-edit-btn { font-size:11px; color:var(--accent); cursor:pointer; background:none; border:none; font-family:'Pretendard',sans-serif; padding:0; }
+  .cat-list { display:flex; flex-direction:column; gap:6px; }
+  .cat-item { background:var(--surface2); border-radius:var(--radius); padding:8px 10px; }
+  .cat-item-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+  .cat-name { font-size:12px; font-weight:500; color:var(--amber); }
+  .cat-del { font-size:11px; color:var(--text3); cursor:pointer; background:none; border:none; opacity:0.5; }
+  .cat-del:hover { opacity:1; color:var(--red); }
+  .cat-keywords { font-size:11px; color:var(--text3); line-height:1.5; }
+  .cat-edit-area { display:none; flex-direction:column; gap:6px; margin-top:8px; }
+  .cat-edit-area.open { display:flex; }
+  .cat-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:6px 8px; font-size:12px; font-family:'Pretendard',sans-serif; color:var(--text); outline:none; }
+  .cat-input:focus { border-color:var(--accent); }
+  .cat-input-row { display:flex; gap:6px; }
+  .btn-xs { padding:5px 10px; border-radius:6px; font-size:11px; font-family:'Pretendard',sans-serif; cursor:pointer; border:1px solid var(--border2); background:transparent; color:var(--text2); transition:all 0.15s; }
+  .btn-xs:hover { background:var(--surface2); }
+  .btn-xs.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
 
-  .save-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
-  .btn {
-    padding: 8px 18px; border-radius: var(--radius); font-size: 13px;
-    font-family: 'Pretendard', sans-serif; cursor: pointer;
-    border: 1px solid var(--border2); background: transparent; color: var(--text2); transition: all 0.15s;
-  }
-  .btn:hover { background: var(--surface2); color: var(--text); }
-  .btn-save { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 500; }
-  .btn-save:hover { opacity: 0.88; }
-  .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+  /* 오른쪽 패널 */
+  .right-panel {}
 
-  /* 필터 & 검색 */
-  .filter-bar {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 1rem 1.25rem;
-    margin-bottom: 1.2rem; display: flex; flex-direction: column; gap: 10px;
-  }
-  .filter-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .filter-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; white-space: nowrap; min-width: 32px; }
-  input[type=text] {
-    flex: 1; min-width: 160px; background: var(--bg);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 7px 12px; font-size: 13px; font-family: 'Pretendard', sans-serif;
-    color: var(--text); outline: none; transition: border-color 0.15s;
-  }
-  input[type=text]:focus { border-color: var(--accent); }
-  input[type=text]::placeholder { color: var(--text3); }
-
-  /* 날짜 필터 */
-  .date-filters { display: flex; gap: 6px; flex-wrap: wrap; }
-  .date-btn {
-    padding: 4px 12px; border-radius: 20px; font-size: 12px;
-    font-family: 'Pretendard', sans-serif; cursor: pointer;
-    border: 1px solid var(--border2); background: transparent; color: var(--text2); transition: all 0.15s;
-  }
-  .date-btn:hover { border-color: var(--amber); color: var(--amber); }
-  .date-btn.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
-
-  /* 티커 모아보기 */
-  .ticker-bar {
-    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
-  }
-  .ticker-tag {
-    padding: 3px 10px; border-radius: 20px; font-size: 11px;
-    font-family: 'IBM Plex Mono', monospace; cursor: pointer;
-    background: var(--accent-dim); color: var(--accent);
-    border: 1px solid var(--accent); transition: opacity 0.15s;
-  }
-  .ticker-tag:hover { opacity: 0.7; }
-  .ticker-tag.active { background: var(--accent); color: #fff; }
-
-  .filter-clear {
-    padding: 5px 12px; border-radius: var(--radius); font-size: 12px;
-    font-family: 'Pretendard', sans-serif; cursor: pointer;
-    border: 1px solid var(--border); background: transparent; color: var(--text3); transition: all 0.15s;
-  }
-  .filter-clear:hover { color: var(--text); border-color: var(--border2); }
+  /* 카테고리 탭 */
+  .cat-tabs { display:flex; gap:0; margin-bottom:1rem; border-bottom:1px solid var(--border); overflow-x:auto; }
+  .cat-tab { padding:8px 16px; font-size:13px; font-family:'Pretendard',sans-serif; cursor:pointer; border:none; background:transparent; color:var(--text2); border-bottom:2px solid transparent; transition:all 0.15s; white-space:nowrap; }
+  .cat-tab:hover { color:var(--text); }
+  .cat-tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:500; }
+  .tab-count { font-size:10px; background:var(--surface2); border-radius:10px; padding:1px 6px; margin-left:4px; color:var(--text3); }
+  .cat-tab.active .tab-count { background:var(--accent-dim); color:var(--accent); }
 
   /* 노트 목록 */
-  .notes-list { display: flex; flex-direction: column; gap: 10px; }
-  .note-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 1rem 1.25rem; transition: border-color 0.15s;
-  }
-  .note-card:hover { border-color: var(--border2); }
-  .note-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
-  .note-text { font-size: 14px; color: var(--text); line-height: 1.7; flex: 1; white-space: pre-wrap; word-break: break-word; }
-  .note-text.collapsed { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; }
-
-  .note-actions { display: flex; gap: 4px; flex-shrink: 0; }
-  .icon-btn { background: transparent; border: none; color: var(--text3); cursor: pointer; font-size: 14px; padding: 3px 6px; opacity: 0.5; transition: opacity 0.15s; }
-  .icon-btn:hover { opacity: 1; }
-  .icon-btn.edit:hover { color: var(--accent); }
-  .icon-btn.del:hover { color: var(--red); }
-
-  /* 편집 모드 */
-  .edit-textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--accent);
-    border-radius: var(--radius); padding: 10px; font-size: 14px;
-    font-family: 'Pretendard', sans-serif; color: var(--text);
-    resize: vertical; min-height: 80px; outline: none; line-height: 1.6; margin-bottom: 8px;
-  }
-  .edit-actions { display: flex; gap: 6px; justify-content: flex-end; }
-  .btn-sm { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-family: 'Pretendard', sans-serif; cursor: pointer; border: 1px solid var(--border2); background: transparent; color: var(--text2); transition: all 0.15s; }
-  .btn-sm:hover { background: var(--surface2); }
-  .btn-sm.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .btn-sm.primary:hover { opacity: 0.88; }
-
-  .note-images { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-  .note-thumb { width: 110px; height: 85px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border2); cursor: pointer; transition: border-color 0.15s; }
-  .note-thumb:hover { border-color: var(--accent); }
-  .note-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-  .note-footer { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
-  .note-date { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; margin-left: auto; }
-  .expand-btn { font-size: 11px; color: var(--accent); cursor: pointer; background: none; border: none; font-family: 'Pretendard', sans-serif; padding: 0; }
-
-  .empty { text-align: center; padding: 4rem 1rem; color: var(--text3); font-size: 14px; line-height: 2; }
+  .notes-list { display:flex; flex-direction:column; gap:8px; }
+  .date-group-label { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text3); padding:8px 0 4px; border-bottom:1px solid var(--border); margin-bottom:4px; }
+  .note-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:0.9rem 1.1rem; transition:border-color 0.15s; }
+  .note-card:hover { border-color:var(--border2); }
+  .note-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px; }
+  .note-text { font-size:13px; color:var(--text); line-height:1.7; flex:1; white-space:pre-wrap; word-break:break-word; }
+  .note-text.collapsed { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; white-space:normal; }
+  .note-actions { display:flex; gap:2px; flex-shrink:0; }
+  .icon-btn { background:transparent; border:none; color:var(--text3); cursor:pointer; font-size:13px; padding:2px 5px; opacity:0.5; transition:opacity 0.15s; }
+  .icon-btn:hover { opacity:1; }
+  .icon-btn.edit:hover { color:var(--accent); }
+  .icon-btn.del:hover { color:var(--red); }
+  .edit-textarea { width:100%; background:var(--bg); border:1px solid var(--accent); border-radius:var(--radius); padding:8px; font-size:13px; font-family:'Pretendard',sans-serif; color:var(--text); resize:vertical; min-height:70px; outline:none; line-height:1.6; margin-bottom:6px; }
+  .edit-actions { display:flex; gap:5px; justify-content:flex-end; }
+  .btn-sm { padding:4px 10px; border-radius:6px; font-size:11px; font-family:'Pretendard',sans-serif; cursor:pointer; border:1px solid var(--border2); background:transparent; color:var(--text2); transition:all 0.15s; }
+  .btn-sm:hover { background:var(--surface2); }
+  .btn-sm.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .note-images { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+  .note-thumb { width:90px; height:70px; border-radius:8px; overflow:hidden; border:1px solid var(--border2); cursor:pointer; transition:border-color 0.15s; }
+  .note-thumb:hover { border-color:var(--accent); }
+  .note-thumb img { width:100%; height:100%; object-fit:cover; }
+  .note-footer { display:flex; gap:5px; flex-wrap:wrap; align-items:center; }
+  .note-date { font-size:10px; color:var(--text3); font-family:'IBM Plex Mono',monospace; margin-left:auto; }
+  .expand-btn { font-size:11px; color:var(--accent); cursor:pointer; background:none; border:none; font-family:'Pretendard',sans-serif; padding:0; }
+  .empty { text-align:center; padding:4rem 1rem; color:var(--text3); font-size:13px; line-height:2; }
 
   /* 라이트박스 */
-  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; cursor: pointer; }
-  .lightbox.open { display: flex; }
-  .lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: var(--radius); }
-  .lightbox-close { position: absolute; top: 20px; right: 24px; color: white; font-size: 28px; cursor: pointer; opacity: 0.6; }
-  .lightbox-close:hover { opacity: 1; }
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; align-items:center; justify-content:center; cursor:pointer; }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:92vw; max-height:92vh; object-fit:contain; border-radius:var(--radius); }
+  .lightbox-close { position:absolute; top:20px; right:24px; color:white; font-size:26px; cursor:pointer; opacity:0.6; }
+  .lightbox-close:hover { opacity:1; }
 
-  .paste-hint { position: fixed; top: 1.2rem; left: 50%; transform: translateX(-50%); padding: 10px 18px; border-radius: var(--radius); background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); font-size: 13px; font-family: 'Pretendard', sans-serif; z-index: 999; display: none; white-space: nowrap; }
-  .paste-hint.show { display: block; }
+  .paste-hint { position:fixed; top:1rem; left:50%; transform:translateX(-50%); padding:8px 16px; border-radius:var(--radius); background:var(--accent-dim); color:var(--accent); border:1px solid var(--accent); font-size:12px; font-family:'Pretendard',sans-serif; z-index:999; display:none; white-space:nowrap; }
+  .paste-hint.show { display:block; }
+  .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); padding:10px 20px; border-radius:var(--radius); font-size:13px; font-family:'Pretendard',sans-serif; z-index:999; display:none; white-space:nowrap; }
+  .toast.ok { background:var(--green-dim); color:var(--green); border:1px solid var(--green); }
+  .toast.err { background:var(--red-dim); color:var(--red); border:1px solid var(--red); }
 
-  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: var(--radius); font-size: 13px; font-family: 'Pretendard', sans-serif; z-index: 999; display: none; white-space: nowrap; }
-  .toast.ok { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
-  .toast.err { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
-
-  @media(max-width: 600px) {
-    .app { padding: 1rem 1rem 3rem; }
-    .header { flex-direction: column; align-items: flex-start; }
+  @media(max-width:900px) {
+    .layout { grid-template-columns:1fr; }
+    .left-panel { position:static; }
   }
+  @media(max-width:600px) { .app { padding:1rem 1rem 3rem; } }
 </style>
 </head>
 <body class="dark">
-
 <div class="paste-hint" id="pasteHint">이미지가 추가됐어요!</div>
-
 <div class="app">
+
+  <!-- 헤더 -->
   <div class="header">
-    <div>
+    <div class="header-left">
       <div class="logo">Trading Notes</div>
       <div class="title">트레이딩 노트</div>
     </div>
     <div class="header-right">
-      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="다크/라이트 모드">🌙</button>
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
       <div class="stats">
         <div class="stat"><div class="stat-num" id="totalCount">-</div><div class="stat-label">총 노트</div></div>
         <div class="stat"><div class="stat-num" id="tickerCount">-</div><div class="stat-label">티커</div></div>
@@ -319,65 +229,77 @@
     </div>
   </div>
 
+  <!-- 연결 상태 -->
   <div class="conn-bar">
     <div class="conn-dot" id="connDot"></div>
     <span id="connText">Supabase 연결 중...</span>
   </div>
 
-  <!-- 입력 -->
-  <div class="input-card">
-    <div class="source-row">
-      <span class="src-label">출처</span>
-      <button class="src-btn active" onclick="selectSource(this,'Discord')">Discord</button>
-      <button class="src-btn" onclick="selectSource(this,'Telegram')">Telegram</button>
-      <button class="src-btn" onclick="selectSource(this,'Twitter/X')">Twitter/X</button>
-      <button class="src-btn" onclick="selectSource(this,'기타')">기타</button>
-    </div>
-    <textarea id="noteInput" placeholder="트레이딩 대화를 붙여넣으세요...&#10;티커($BTC, AAPL), 키워드(매수, 저항선, RSI 등)를 자동으로 감지합니다." oninput="autoDetect()"></textarea>
-    <div class="img-area" id="imgArea" ondragover="onDragOver(event)" ondragleave="onDragLeave()" ondrop="onDrop(event)">
-      <input type="file" accept="image/*" multiple onchange="onFileSelect(event)">
-      <div class="img-area-label">
-        이미지 첨부 —
-        <span class="hl">Ctrl+V</span> 붙여넣기
-        <span style="color:var(--text3)">또는</span>
-        <span class="hl">드래그앤드롭</span>
-        <span style="color:var(--text3)">또는</span>
-        <span class="hl">클릭</span>
-      </div>
-      <div class="img-hint">차트 캡처 후 Ctrl+C → 페이지 어디서든 Ctrl+V</div>
-    </div>
-    <div class="img-preview-list" id="previewList"></div>
-    <div class="auto-tags" id="autoTags"><span class="at-label">// 태그 자동 감지</span></div>
-    <div class="save-row">
-      <button class="btn" onclick="clearInput()">초기화</button>
-      <button class="btn btn-save" id="saveBtn" onclick="saveNote()">저장하기</button>
-    </div>
-  </div>
+  <div class="layout">
+    <!-- 왼쪽 패널 -->
+    <div class="left-panel">
 
-  <!-- 필터 & 검색 -->
-  <div class="filter-bar">
-    <div class="filter-row">
-      <span class="filter-label">검색</span>
-      <input type="text" id="searchInput" placeholder="티커, 키워드, 본문 검색..." oninput="applyFilters()">
-      <button class="filter-clear" onclick="clearAllFilters()">초기화</button>
+      <!-- 입력 -->
+      <div class="input-card">
+        <div class="section-label">// 새 노트</div>
+        <div class="source-row">
+          <button class="src-btn active" onclick="selectSource(this,'Discord')">Discord</button>
+          <button class="src-btn" onclick="selectSource(this,'Telegram')">Telegram</button>
+          <button class="src-btn" onclick="selectSource(this,'Twitter/X')">Twitter/X</button>
+          <button class="src-btn" onclick="selectSource(this,'기타')">기타</button>
+        </div>
+        <textarea id="noteInput" placeholder="트레이딩 대화를 붙여넣으세요...&#10;티커, 키워드 자동 감지 + 카테고리 자동 분류" oninput="autoDetect()"></textarea>
+        <div class="img-area" id="imgArea" ondragover="onDragOver(event)" ondragleave="onDragLeave()" ondrop="onDrop(event)">
+          <input type="file" accept="image/*" multiple onchange="onFileSelect(event)">
+          <div class="img-area-label">이미지: <span class="hl">Ctrl+V</span> · <span class="hl">드래그앤드롭</span> · <span class="hl">클릭</span></div>
+        </div>
+        <div class="img-preview-list" id="previewList"></div>
+        <div class="auto-tags" id="autoTags"><span class="at-label">// 자동 감지 대기중</span></div>
+        <div class="save-row">
+          <button class="btn" onclick="clearInput()">초기화</button>
+          <button class="btn btn-save" id="saveBtn" onclick="saveNote()">저장하기</button>
+        </div>
+      </div>
+
+      <!-- 검색 -->
+      <div class="search-card">
+        <div class="section-label">// 검색 & 필터</div>
+        <input type="text" id="searchInput" placeholder="키워드, 본문 검색..." oninput="applyFilters()">
+        <div class="date-filters">
+          <button class="date-btn active" onclick="setDateFilter(this,'all')">전체</button>
+          <button class="date-btn" onclick="setDateFilter(this,'today')">오늘</button>
+          <button class="date-btn" onclick="setDateFilter(this,'week')">이번 주</button>
+          <button class="date-btn" onclick="setDateFilter(this,'month')">이번 달</button>
+        </div>
+        <button class="filter-clear" onclick="clearAllFilters()">필터 초기화</button>
+      </div>
+
+      <!-- 카테고리 관리 -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="section-label" style="margin-bottom:0">// 카테고리 관리</div>
+          <button class="cat-edit-btn" onclick="toggleCatEdit()">+ 추가</button>
+        </div>
+        <div class="cat-edit-area" id="catEditArea">
+          <input class="cat-input" id="newCatName" placeholder="카테고리 이름 (예: 매매전략)">
+          <textarea class="cat-input" id="newCatKeywords" placeholder="키워드 (쉼표로 구분)&#10;예: 매수, 매도, 롱, 숏" style="min-height:60px;resize:vertical"></textarea>
+          <div class="cat-input-row">
+            <button class="btn-xs" onclick="toggleCatEdit()">취소</button>
+            <button class="btn-xs primary" onclick="addCategory()">추가</button>
+          </div>
+        </div>
+        <div class="cat-list" id="catList"></div>
+      </div>
+
     </div>
-    <div class="filter-row">
-      <span class="filter-label">날짜</span>
-      <div class="date-filters">
-        <button class="date-btn" onclick="setDateFilter(this,'all')">전체</button>
-        <button class="date-btn active" onclick="setDateFilter(this,'today')">오늘</button>
-        <button class="date-btn" onclick="setDateFilter(this,'week')">이번 주</button>
-        <button class="date-btn" onclick="setDateFilter(this,'month')">이번 달</button>
+
+    <!-- 오른쪽 패널 -->
+    <div class="right-panel">
+      <div class="cat-tabs" id="catTabs"></div>
+      <div id="notesList" class="notes-list">
+        <div class="empty">불러오는 중...</div>
       </div>
     </div>
-    <div class="filter-row">
-      <span class="filter-label">티커</span>
-      <div class="ticker-bar" id="tickerBar"><span style="font-size:12px;color:var(--text3)">저장된 노트가 없습니다</span></div>
-    </div>
-  </div>
-
-  <div id="notesList" class="notes-list">
-    <div class="empty">불러오는 중...</div>
   </div>
 </div>
 
@@ -393,21 +315,36 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const BUCKET = 'trading-images';
 const H = { 'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Prefer':'return=representation' };
 
-const KEYWORDS = ['매수','매도','롱','숏','지지','저항','목표가','손절','익절','돌파','눌림','반등','하락','상승','오버나잇','스윙','데이트레이딩','단타','중장기','추세','이평선','골든크로스','데드크로스','볼린저','RSI','MACD','거래량','변동성','포지션','레버리지','선물','현물','코인','주식','ETF','옵션','차트','패턴','눌림목','피보나치','지지선','저항선','breakout','long','short','buy','sell','hold','비중','분할매수','분할매도','물타기','불타기','횡보','박스권','급등','급락'];
+// 기본 카테고리
+const DEFAULT_CATEGORIES = [
+  { id:'cat1', name:'매매전략', keywords:['매수','매도','롱','숏','분할매수','분할매도','물타기','불타기','오버나잇','스윙','단타','포지션','비중'] },
+  { id:'cat2', name:'차트분석', keywords:['지지','저항','지지선','저항선','돌파','눌림','눌림목','이평선','볼린저','RSI','MACD','골든크로스','데드크로스','피보나치','패턴','차트','추세','breakout'] },
+  { id:'cat3', name:'리스크관리', keywords:['손절','익절','목표가','레버리지','선물','옵션','변동성','현물'] },
+  { id:'cat4', name:'시장동향', keywords:['상승','하락','급등','급락','반등','횡보','박스권','거래량'] }
+];
+
 const SKIP = new Set(['I','A','AM','PM','THE','AND','FOR','ARE','YOU','IT','IS','IN','ON','AT','TO','BE','DO','IF','OR','OF','WE','AS','BY','AN','SO','UP','NO','GO']);
 
 let notes = [];
+let categories = [];
 let selectedSource = 'Discord';
 let detectedTags = [];
 let pendingImages = [];
-let dateFilter = 'today';
-let tickerFilter = '';
+let dateFilter = 'all';
+let activeTab = 'all';
 let expandedNotes = new Set();
 let editingId = null;
 let isDark = true;
 
+// 로컬 카테고리 저장
+function saveCategories() { localStorage.setItem('trading_categories', JSON.stringify(categories)); }
+function loadCategories() {
+  const saved = localStorage.getItem('trading_categories');
+  categories = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+}
+
 async function api(method, path, body) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { method, headers: H, body: body ? JSON.stringify(body) : undefined });
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { method, headers:H, body:body?JSON.stringify(body):undefined });
   if(!res.ok) throw new Error(await res.text());
   const text = await res.text();
   return text ? JSON.parse(text) : null;
@@ -424,9 +361,11 @@ async function uploadImage(file) {
 }
 
 async function load() {
+  loadCategories();
+  renderCatList();
   try {
     notes = await api('GET','notes?order=id.desc') || [];
-    setConn(true); applyFilters(); updateStats(); renderTickerBar();
+    setConn(true); applyFilters(); updateStats(); renderCatTabs();
   } catch(e) {
     setConn(false);
     document.getElementById('notesList').innerHTML = '<div class="empty">Supabase 연결 실패.<br>인터넷 연결을 확인해주세요.</div>';
@@ -435,10 +374,9 @@ async function load() {
 
 function setConn(ok) {
   document.getElementById('connDot').className = 'conn-dot '+(ok?'ok':'err');
-  document.getElementById('connText').textContent = ok ? 'Supabase 연결됨 — 집·회사·모바일 어디서든 실시간 동기화' : '연결 실패 — 인터넷을 확인해주세요';
+  document.getElementById('connText').textContent = ok ? 'Supabase 연결됨 — 집·회사·모바일 어디서든 실시간 동기화' : '연결 실패';
 }
 
-// 테마
 function toggleTheme() {
   isDark = !isDark;
   document.body.className = isDark ? 'dark' : 'light';
@@ -446,31 +384,46 @@ function toggleTheme() {
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// 출처 선택
 function selectSource(btn, src) {
-  document.querySelectorAll('.src-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.src-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   selectedSource = src;
 }
 
-// 자동 태그 감지
+// 카테고리 자동 매핑
+function detectCategory(keywords) {
+  const kwTexts = keywords.map(k=>k.text.toLowerCase());
+  for(const cat of categories) {
+    if(cat.keywords.some(ck => kwTexts.includes(ck.toLowerCase()))) return cat.name;
+  }
+  return null;
+}
+
 function autoDetect() {
   const text = document.getElementById('noteInput').value;
   detectedTags = [];
   const tickerSet = new Set();
-  (text.match(/\$[A-Z]{1,6}/g)||[]).forEach(t => tickerSet.add(t));
+  (text.match(/\$[A-Z]{1,6}/g)||[]).forEach(t=>tickerSet.add(t));
   (text.match(/\b[A-Z]{2,6}(?:\/[A-Z]{2,6})?\b/g)||[]).filter(t=>!SKIP.has(t)&&t.length>=2).forEach(t=>tickerSet.add(t));
-  [...tickerSet].slice(0,10).forEach(t=>detectedTags.push({text:t,type:'ticker'}));
-  KEYWORDS.forEach(kw=>{if(text.toLowerCase().includes(kw.toLowerCase()))detectedTags.push({text:kw,type:'keyword'});});
+  [...tickerSet].slice(0,8).forEach(t=>detectedTags.push({text:t,type:'ticker'}));
+
+  const allKeywords = categories.flatMap(c=>c.keywords);
+  allKeywords.forEach(kw=>{
+    if(text.toLowerCase().includes(kw.toLowerCase())) detectedTags.push({text:kw,type:'keyword'});
+  });
+
+  const cat = detectCategory(detectedTags.filter(t=>t.type==='keyword'));
+  if(cat) detectedTags.push({text:cat,type:'category'});
+
   const c = document.getElementById('autoTags');
-  if(!detectedTags.length){c.innerHTML='<span class="at-label">// 태그 자동 감지</span>';return;}
+  if(!detectedTags.length){c.innerHTML='<span class="at-label">// 자동 감지 대기중</span>';return;}
   c.innerHTML='<span class="at-label">// 감지됨</span>'+detectedTags.map(t=>`<span class="tag tag-${t.type}">${esc(t.text)}</span>`).join('');
 }
 
 // 이미지
-document.addEventListener('paste', e => {
-  const imgs = [...(e.clipboardData?.items||[])].filter(i=>i.type.startsWith('image/'));
-  if(!imgs.length) return;
+document.addEventListener('paste', e=>{
+  const imgs=[...(e.clipboardData?.items||[])].filter(i=>i.type.startsWith('image/'));
+  if(!imgs.length)return;
   e.preventDefault();
   imgs.forEach(i=>{const f=i.getAsFile();if(f)addFile(f);});
   showPasteHint();
@@ -484,7 +437,6 @@ function renderPreviews(){document.getElementById('previewList').innerHTML=pendi
 function removePreview(i){URL.revokeObjectURL(pendingImages[i].previewUrl);pendingImages.splice(i,1);renderPreviews();}
 function showPasteHint(){const el=document.getElementById('pasteHint');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);}
 
-// 저장
 async function saveNote() {
   const text = document.getElementById('noteInput').value.trim();
   if(!text && pendingImages.length===0) return;
@@ -497,175 +449,229 @@ async function saveNote() {
     const note={id:Date.now(),text,source:selectedSource,tags:detectedTags,images:imageUrls,date:new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),ts:Date.now()};
     await api('POST','notes',note);
     notes.unshift(note);
-    clearInput(); applyFilters(); updateStats(); renderTickerBar();
+    clearInput(); applyFilters(); updateStats(); renderCatTabs();
     toast('저장했습니다!',false);
   } catch(e){toast('저장 실패: '+e.message,true);}
   btn.disabled=false; btn.textContent='저장하기';
 }
 
-// 삭제
 async function deleteNote(id) {
   if(!confirm('이 노트를 삭제할까요?')) return;
   try {
     await api('DELETE',`notes?id=eq.${id}`);
     notes=notes.filter(n=>n.id!==id);
-    applyFilters(); updateStats(); renderTickerBar();
+    applyFilters(); updateStats(); renderCatTabs();
     toast('삭제했습니다.',false);
   } catch(e){toast('삭제 실패.',true);}
 }
 
-// 편집
-function startEdit(id) {
-  editingId = id;
-  renderNotes(getFiltered());
-}
+function startEdit(id){editingId=id;renderNotes(getFiltered());}
 async function saveEdit(id) {
-  const val = document.getElementById(`edit-${id}`)?.value.trim();
-  if(!val) return;
+  const val=document.getElementById(`edit-${id}`)?.value.trim();
+  if(!val)return;
   try {
     await api('PATCH',`notes?id=eq.${id}`,{text:val});
-    const note = notes.find(n=>n.id===id);
-    if(note) note.text = val;
-    editingId = null;
-    applyFilters();
+    const note=notes.find(n=>n.id===id);
+    if(note)note.text=val;
+    editingId=null; applyFilters();
     toast('수정했습니다.',false);
   } catch(e){toast('수정 실패.',true);}
 }
 function cancelEdit(){editingId=null;renderNotes(getFiltered());}
 
-// 펼치기/접기
 function toggleExpand(id){
-  if(expandedNotes.has(id)) expandedNotes.delete(id);
+  if(expandedNotes.has(id))expandedNotes.delete(id);
   else expandedNotes.add(id);
   renderNotes(getFiltered());
 }
 
-// 필터
-function setDateFilter(btn, val) {
-  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  dateFilter = val;
-  applyFilters();
+// 카테고리 탭
+function renderCatTabs() {
+  const allCount = getFilteredBase().length;
+  let html = `<button class="cat-tab ${activeTab==='all'?'active':''}" onclick="setTab('all')">전체 <span class="tab-count">${allCount}</span></button>`;
+  categories.forEach(cat=>{
+    const count = getFilteredBase().filter(n=>(n.tags||[]).some(t=>t.type==='category'&&t.text===cat.name)).length;
+    html += `<button class="cat-tab ${activeTab===cat.id?'active':''}" onclick="setTab('${cat.id}')">${cat.name} <span class="tab-count">${count}</span></button>`;
+  });
+  const etcCount = getFilteredBase().filter(n=>!(n.tags||[]).some(t=>t.type==='category')).length;
+  if(etcCount > 0) html += `<button class="cat-tab ${activeTab==='etc'?'active':''}" onclick="setTab('etc')">기타 <span class="tab-count">${etcCount}</span></button>`;
+  document.getElementById('catTabs').innerHTML = html;
 }
-function setTickerFilter(ticker) {
-  tickerFilter = tickerFilter === ticker ? '' : ticker;
-  renderTickerBar();
-  applyFilters();
+
+function setTab(tabId){activeTab=tabId;renderCatTabs();applyFilters();}
+
+// 카테고리 목록 렌더링
+function renderCatList() {
+  document.getElementById('catList').innerHTML = categories.map((cat,i)=>`
+    <div class="cat-item">
+      <div class="cat-item-header">
+        <span class="cat-name">${esc(cat.name)}</span>
+        <button class="cat-del" onclick="deleteCategory(${i})">✕</button>
+      </div>
+      <div class="cat-keywords">${cat.keywords.slice(0,6).map(k=>esc(k)).join(', ')}${cat.keywords.length>6?` 외 ${cat.keywords.length-6}개`:''}</div>
+    </div>`).join('');
 }
-function clearAllFilters() {
-  document.getElementById('searchInput').value='';
-  dateFilter='all';
-  tickerFilter='';
-  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelector('.date-btn').classList.add('active');
-  renderTickerBar();
+
+function toggleCatEdit() {
+  const area = document.getElementById('catEditArea');
+  area.classList.toggle('open');
+}
+
+function addCategory() {
+  const name = document.getElementById('newCatName').value.trim();
+  const kwRaw = document.getElementById('newCatKeywords').value.trim();
+  if(!name || !kwRaw) { toast('이름과 키워드를 입력해주세요.', true); return; }
+  const keywords = kwRaw.split(',').map(k=>k.trim()).filter(k=>k);
+  categories.push({ id:'cat'+Date.now(), name, keywords });
+  saveCategories();
+  renderCatList();
+  renderCatTabs();
+  document.getElementById('newCatName').value='';
+  document.getElementById('newCatKeywords').value='';
+  document.getElementById('catEditArea').classList.remove('open');
+  toast(`"${name}" 카테고리 추가됐습니다.`, false);
+}
+
+function deleteCategory(i) {
+  if(!confirm(`"${categories[i].name}" 카테고리를 삭제할까요?\n노트는 삭제되지 않습니다.`)) return;
+  categories.splice(i,1);
+  saveCategories();
+  renderCatList();
+  if(activeTab===`cat${i}`) activeTab='all';
+  renderCatTabs();
   applyFilters();
 }
 
-function getFiltered() {
+// 필터
+function setDateFilter(btn,val){
+  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  dateFilter=val; applyFilters(); renderCatTabs();
+}
+function clearAllFilters(){
+  document.getElementById('searchInput').value='';
+  dateFilter='all';
+  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.date-btn').classList.add('active');
+  applyFilters(); renderCatTabs();
+}
+
+function getFilteredBase() {
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
   const now = new Date();
-  return notes.filter(n => {
-    // 날짜 필터
-    if(dateFilter !== 'all') {
-      const ts = n.ts || n.id;
-      const d = new Date(ts);
-      if(dateFilter==='today' && d.toDateString()!==now.toDateString()) return false;
-      if(dateFilter==='week') {
-        const weekAgo = new Date(now); weekAgo.setDate(now.getDate()-7);
-        if(d < weekAgo) return false;
-      }
-      if(dateFilter==='month') {
-        if(d.getMonth()!==now.getMonth()||d.getFullYear()!==now.getFullYear()) return false;
-      }
+  return notes.filter(n=>{
+    if(dateFilter!=='all'){
+      const ts=n.ts||n.id; const d=new Date(ts);
+      if(dateFilter==='today'&&d.toDateString()!==now.toDateString())return false;
+      if(dateFilter==='week'){const w=new Date(now);w.setDate(now.getDate()-7);if(d<w)return false;}
+      if(dateFilter==='month'&&(d.getMonth()!==now.getMonth()||d.getFullYear()!==now.getFullYear()))return false;
     }
-    // 티커 필터
-    if(tickerFilter && !(n.tags||[]).some(t=>t.type==='ticker'&&t.text===tickerFilter)) return false;
-    // 텍스트 검색
-    if(q && !(n.text||'').toLowerCase().includes(q) && !(n.tags||[]).some(t=>t.text.toLowerCase().includes(q)) && !(n.source||'').toLowerCase().includes(q)) return false;
+    if(q&&!(n.text||'').toLowerCase().includes(q)&&!(n.tags||[]).some(t=>t.text.toLowerCase().includes(q))&&!(n.source||'').toLowerCase().includes(q))return false;
     return true;
   });
 }
 
-function applyFilters() { renderNotes(getFiltered()); }
-
-function filterByTag(text) {
-  document.getElementById('searchInput').value = text;
-  applyFilters();
+function getFiltered() {
+  const base = getFilteredBase();
+  if(activeTab==='all') return base;
+  if(activeTab==='etc') return base.filter(n=>!(n.tags||[]).some(t=>t.type==='category'));
+  const cat = categories.find(c=>c.id===activeTab);
+  if(!cat) return base;
+  return base.filter(n=>(n.tags||[]).some(t=>t.type==='category'&&t.text===cat.name));
 }
+
+function applyFilters(){renderNotes(getFiltered());}
 
 function renderNotes(filtered) {
   const el = document.getElementById('notesList');
-  if(!filtered.length) {
-    el.innerHTML=`<div class="empty">${notes.length?'조건에 맞는 노트가 없습니다.':'아직 저장된 노트가 없습니다.<br>위에서 대화를 붙여넣고 저장해보세요!'}</div>`;
+  if(!filtered.length){
+    el.innerHTML=`<div class="empty">${notes.length?'조건에 맞는 노트가 없습니다.':'아직 저장된 노트가 없습니다.<br>왼쪽에서 대화를 붙여넣고 저장해보세요!'}</div>`;
     return;
   }
-  el.innerHTML = filtered.map(n => {
-    const isEditing = editingId === n.id;
-    const isExpanded = expandedNotes.has(n.id);
-    const longText = (n.text||'').length > 300;
-    return `
-    <div class="note-card">
-      <div class="note-top">
-        ${isEditing
-          ? `<div style="flex:1"><textarea class="edit-textarea" id="edit-${n.id}">${esc(n.text||'')}</textarea><div class="edit-actions"><button class="btn-sm" onclick="cancelEdit()">취소</button><button class="btn-sm primary" onclick="saveEdit(${n.id})">저장</button></div></div>`
-          : `<div class="note-text ${longText&&!isExpanded?'collapsed':''}">${n.text?linkify(n.text):'<span style="color:var(--text3);font-size:13px">텍스트 없음</span>'}</div>`
-        }
-        ${!isEditing?`<div class="note-actions"><button class="icon-btn edit" onclick="startEdit(${n.id})" title="편집">✎</button><button class="icon-btn del" onclick="deleteNote(${n.id})" title="삭제">✕</button></div>`:''}
-      </div>
-      ${(n.images||[]).length?`<div class="note-images">${n.images.map(url=>`<div class="note-thumb" onclick="openLightbox('${url}')"><img src="${url}" alt="차트"></div>`).join('')}</div>`:''}
-      <div class="note-footer">
-        <span class="tag tag-source" onclick="filterByTag('${esc(n.source)}')">${esc(n.source)}</span>
-        ${(n.tags||[]).map(t=>`<span class="tag tag-${t.type}" onclick="filterByTag('${esc(t.text)}')">${esc(t.text)}</span>`).join('')}
-        ${longText&&!isEditing?`<button class="expand-btn" onclick="toggleExpand(${n.id})">${isExpanded?'접기':'더보기'}</button>`:''}
-        <span class="note-date">${n.date}</span>
-      </div>
-    </div>`;
-  }).join('');
+
+  // 날짜별 그룹
+  const groups = {};
+  const now = new Date();
+  filtered.forEach(n=>{
+    const ts=n.ts||n.id; const d=new Date(ts);
+    let label;
+    if(d.toDateString()===now.toDateString()) label='오늘';
+    else {
+      const yesterday=new Date(now); yesterday.setDate(now.getDate()-1);
+      if(d.toDateString()===yesterday.toDateString()) label='어제';
+      else label=d.toLocaleDateString('ko-KR',{month:'long',day:'numeric'});
+    }
+    if(!groups[label])groups[label]=[];
+    groups[label].push(n);
+  });
+
+  el.innerHTML = Object.entries(groups).map(([label,groupNotes])=>`
+    <div class="date-group-label">${label} · ${groupNotes.length}개</div>
+    ${groupNotes.map(n=>{
+      const isEditing=editingId===n.id;
+      const isExpanded=expandedNotes.has(n.id);
+      const longText=(n.text||'').length>200;
+      return `<div class="note-card">
+        <div class="note-top">
+          ${isEditing
+            ?`<div style="flex:1"><textarea class="edit-textarea" id="edit-${n.id}">${esc(n.text||'')}</textarea><div class="edit-actions"><button class="btn-sm" onclick="cancelEdit()">취소</button><button class="btn-sm primary" onclick="saveEdit(${n.id})">저장</button></div></div>`
+            :`<div class="note-text ${longText&&!isExpanded?'collapsed':''}">${n.text?linkify(n.text):'<span style="color:var(--text3);font-size:12px">텍스트 없음</span>'}</div>`
+          }
+          ${!isEditing?`<div class="note-actions"><button class="icon-btn edit" onclick="startEdit(${n.id})">✎</button><button class="icon-btn del" onclick="deleteNote(${n.id})">✕</button></div>`:''}
+        </div>
+        ${(n.images||[]).length?`<div class="note-images">${n.images.map(url=>`<div class="note-thumb" onclick="openLightbox('${url}')"><img src="${url}" alt="차트"></div>`).join('')}</div>`:''}
+        <div class="note-footer">
+          <span class="tag tag-source" style="font-size:10px">${esc(n.source)}</span>
+          ${(n.tags||[]).filter(t=>t.type==='category').map(t=>`<span class="tag tag-category" style="font-size:10px">${esc(t.text)}</span>`).join('')}
+          ${(n.tags||[]).filter(t=>t.type==='ticker').map(t=>`<span class="tag tag-ticker" style="font-size:10px">${esc(t.text)}</span>`).join('')}
+          ${longText&&!isEditing?`<button class="expand-btn" onclick="toggleExpand(${n.id})">${isExpanded?'접기':'더보기'}</button>`:''}
+          <span class="note-date">${n.date}</span>
+        </div>
+      </div>`;
+    }).join('')}`).join('');
 }
 
-function renderTickerBar() {
-  const tickers = [...new Set(notes.flatMap(n=>(n.tags||[]).filter(t=>t.type==='ticker').map(t=>t.text)))];
-  const bar = document.getElementById('tickerBar');
-  if(!tickers.length){bar.innerHTML='<span style="font-size:12px;color:var(--text3)">없음</span>';return;}
-  bar.innerHTML = tickers.map(t=>`<span class="ticker-tag ${tickerFilter===t?'active':''}" onclick="setTickerFilter('${t}')">${t}</span>`).join('');
-}
-
-function updateStats() {
+function updateStats(){
   document.getElementById('totalCount').textContent=notes.length;
   const tickers=new Set(notes.flatMap(n=>(n.tags||[]).filter(t=>t.type==='ticker').map(t=>t.text)));
   document.getElementById('tickerCount').textContent=tickers.size;
 }
 
-function clearInput() {
+function clearInput(){
   document.getElementById('noteInput').value='';
   detectedTags=[];
   pendingImages.forEach(i=>URL.revokeObjectURL(i.previewUrl));
   pendingImages=[];
   document.getElementById('previewList').innerHTML='';
-  document.getElementById('autoTags').innerHTML='<span class="at-label">// 태그 자동 감지</span>';
+  document.getElementById('autoTags').innerHTML='<span class="at-label">// 자동 감지 대기중</span>';
 }
 
 function openLightbox(url){document.getElementById('lightboxImg').src=url;document.getElementById('lightbox').classList.add('open');}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function linkify(text) {
-  return esc(text).replace(/(https?:\/\/[^\s&lt;&gt;"]+)/g,
-    '<a href="$1" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;word-break:break-all;" onclick="event.stopPropagation()">$1</a>');
+function linkify(text){
+  const urlRegex=/(https?:\/\/[^\s"<>]+)/g;
+  const parts=[];let last=0,match;
+  while((match=urlRegex.exec(text))!==null){
+    if(match.index>last)parts.push(esc(text.slice(last,match.index)));
+    const url=match[1];
+    parts.push(`<a href="${url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;word-break:break-all;" onclick="event.stopPropagation()">${esc(url)}</a>`);
+    last=match.index+url.length;
+  }
+  if(last<text.length)parts.push(esc(text.slice(last)));
+  return parts.join('');
 }
-
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function toast(msg,isErr){
   const el=document.getElementById('toast');
   el.className='toast '+(isErr?'err':'ok');
-  el.textContent=msg; el.style.display='block';
+  el.textContent=msg;el.style.display='block';
   setTimeout(()=>el.style.display='none',3000);
 }
 
 // 테마 복원
-const savedTheme = localStorage.getItem('theme');
+const savedTheme=localStorage.getItem('theme');
 if(savedTheme==='light'){isDark=false;document.body.className='light';document.getElementById('themeBtn').textContent='☀️';}
 
 load();
