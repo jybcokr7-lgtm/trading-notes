@@ -22,9 +22,33 @@
     --green-dim: #0d2e22;
     --purple: #a78bfa;
     --purple-dim: #1e1535;
+    --amber: #f59e0b;
+    --amber-dim: #2a1e06;
     --red: #f87171;
+    --red-dim: #2a0f0f;
     --radius: 10px;
     --radius-lg: 14px;
+  }
+
+  .light {
+    --bg: #f8f9fc;
+    --surface: #ffffff;
+    --surface2: #f1f3f8;
+    --border: #e2e6f0;
+    --border2: #c8cfe0;
+    --text: #1a1d2e;
+    --text2: #5a6080;
+    --text3: #9aa0b8;
+    --accent: #2563eb;
+    --accent-dim: #dbeafe;
+    --green: #059669;
+    --green-dim: #d1fae5;
+    --purple: #7c3aed;
+    --purple-dim: #ede9fe;
+    --amber: #d97706;
+    --amber-dim: #fef3c7;
+    --red: #dc2626;
+    --red-dim: #fee2e2;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,9 +59,10 @@
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
+    transition: background 0.2s, color 0.2s;
   }
 
-  body::before {
+  body.dark::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -53,16 +78,17 @@
   .app {
     position: relative;
     z-index: 1;
-    max-width: 820px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 2rem 1.5rem 4rem;
   }
 
+  /* 헤더 */
   .header {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
@@ -70,33 +96,42 @@
   }
   .logo { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
   .title { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+  .header-right { display: flex; align-items: center; gap: 16px; }
   .stats { display: flex; gap: 16px; }
   .stat { text-align: right; }
   .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 500; color: var(--accent); line-height: 1; }
   .stat-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
-  .conn-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
+  /* 다크/라이트 토글 */
+  .theme-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 1.2rem;
-    font-size: 12px;
-    color: var(--text2);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .theme-btn:hover { border-color: var(--accent); }
+
+  /* 연결 상태 */
+  .conn-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 1.2rem;
+    font-size: 12px; color: var(--text2);
   }
   .conn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); flex-shrink: 0; transition: background 0.3s; }
   .conn-dot.ok { background: var(--green); }
   .conn-dot.err { background: var(--red); }
 
+  /* 입력 카드 */
   .input-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem;
-    margin-bottom: 1.2rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.2rem;
   }
   .source-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
   .src-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
@@ -117,34 +152,21 @@
   textarea:focus { border-color: var(--accent); }
   textarea::placeholder { color: var(--text3); }
 
-  /* 이미지 첨부 영역 */
   .img-area {
-    margin-top: 10px;
-    border: 1.5px dashed var(--border2);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
+    margin-top: 10px; border: 1.5px dashed var(--border2);
+    border-radius: var(--radius); padding: 14px 16px;
+    cursor: pointer; transition: all 0.15s; position: relative;
   }
   .img-area:hover, .img-area.dragover { border-color: var(--accent); background: var(--accent-dim); }
   .img-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .img-area-label { font-size: 13px; color: var(--text3); pointer-events: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .img-area-label .highlight { color: var(--accent); }
-  .img-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .img-area-label { font-size: 13px; color: var(--text3); pointer-events: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .hl { color: var(--accent); }
+  .img-hint { font-size: 11px; color: var(--text3); margin-top: 3px; }
 
   .img-preview-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-  .img-preview-item {
-    position: relative; width: 80px; height: 80px;
-    border-radius: 8px; overflow: hidden; border: 1px solid var(--border2);
-  }
+  .img-preview-item { position: relative; width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border2); }
   .img-preview-item img { width: 100%; height: 100%; object-fit: cover; }
-  .img-remove {
-    position: absolute; top: 3px; right: 3px;
-    width: 18px; height: 18px; border-radius: 50%;
-    background: rgba(0,0,0,0.75); color: white; border: none;
-    cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center;
-  }
+  .img-remove { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.75); color: white; border: none; cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center; }
 
   .auto-tags { min-height: 32px; display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; align-items: center; }
   .at-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
@@ -155,9 +177,9 @@
     cursor: pointer; transition: opacity 0.15s;
   }
   .tag:hover { opacity: 0.75; }
-  .tag-ticker { background: var(--accent-dim); color: var(--accent); border: 1px solid #2a3d6a; }
-  .tag-keyword { background: var(--purple-dim); color: var(--purple); border: 1px solid #2d2050; }
-  .tag-source { background: var(--green-dim); color: var(--green); border: 1px solid #0d3525; }
+  .tag-ticker { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
+  .tag-keyword { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple); }
+  .tag-source { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
 
   .save-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
   .btn {
@@ -167,26 +189,57 @@
   }
   .btn:hover { background: var(--surface2); color: var(--text); }
   .btn-save { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 500; }
-  .btn-save:hover { background: #6fa3ff; }
+  .btn-save:hover { opacity: 0.88; }
   .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .filter-row { display: flex; gap: 8px; margin-bottom: 1rem; align-items: center; flex-wrap: wrap; }
-  .filter-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
+  /* 필터 & 검색 */
+  .filter-bar {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1rem 1.25rem;
+    margin-bottom: 1.2rem; display: flex; flex-direction: column; gap: 10px;
+  }
+  .filter-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; white-space: nowrap; min-width: 32px; }
   input[type=text] {
-    flex: 1; min-width: 160px; background: var(--surface);
+    flex: 1; min-width: 160px; background: var(--bg);
     border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 8px 12px; font-size: 13px; font-family: 'Pretendard', sans-serif;
+    padding: 7px 12px; font-size: 13px; font-family: 'Pretendard', sans-serif;
     color: var(--text); outline: none; transition: border-color 0.15s;
   }
   input[type=text]:focus { border-color: var(--accent); }
   input[type=text]::placeholder { color: var(--text3); }
+
+  /* 날짜 필터 */
+  .date-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .date-btn {
+    padding: 4px 12px; border-radius: 20px; font-size: 12px;
+    font-family: 'Pretendard', sans-serif; cursor: pointer;
+    border: 1px solid var(--border2); background: transparent; color: var(--text2); transition: all 0.15s;
+  }
+  .date-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .date-btn.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+
+  /* 티커 모아보기 */
+  .ticker-bar {
+    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+  }
+  .ticker-tag {
+    padding: 3px 10px; border-radius: 20px; font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace; cursor: pointer;
+    background: var(--accent-dim); color: var(--accent);
+    border: 1px solid var(--accent); transition: opacity 0.15s;
+  }
+  .ticker-tag:hover { opacity: 0.7; }
+  .ticker-tag.active { background: var(--accent); color: #fff; }
+
   .filter-clear {
-    padding: 7px 12px; border-radius: var(--radius); font-size: 12px;
+    padding: 5px 12px; border-radius: var(--radius); font-size: 12px;
     font-family: 'Pretendard', sans-serif; cursor: pointer;
     border: 1px solid var(--border); background: transparent; color: var(--text3); transition: all 0.15s;
   }
   .filter-clear:hover { color: var(--text); border-color: var(--border2); }
 
+  /* 노트 목록 */
   .notes-list { display: flex; flex-direction: column; gap: 10px; }
   .note-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -195,51 +248,51 @@
   .note-card:hover { border-color: var(--border2); }
   .note-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
   .note-text { font-size: 14px; color: var(--text); line-height: 1.7; flex: 1; white-space: pre-wrap; word-break: break-word; }
-  .del-btn { background: transparent; border: none; color: var(--text3); cursor: pointer; font-size: 16px; padding: 0 4px; opacity: 0.5; transition: opacity 0.15s; flex-shrink: 0; }
-  .del-btn:hover { opacity: 1; color: var(--red); }
+  .note-text.collapsed { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; }
+
+  .note-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .icon-btn { background: transparent; border: none; color: var(--text3); cursor: pointer; font-size: 14px; padding: 3px 6px; opacity: 0.5; transition: opacity 0.15s; }
+  .icon-btn:hover { opacity: 1; }
+  .icon-btn.edit:hover { color: var(--accent); }
+  .icon-btn.del:hover { color: var(--red); }
+
+  /* 편집 모드 */
+  .edit-textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--accent);
+    border-radius: var(--radius); padding: 10px; font-size: 14px;
+    font-family: 'Pretendard', sans-serif; color: var(--text);
+    resize: vertical; min-height: 80px; outline: none; line-height: 1.6; margin-bottom: 8px;
+  }
+  .edit-actions { display: flex; gap: 6px; justify-content: flex-end; }
+  .btn-sm { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-family: 'Pretendard', sans-serif; cursor: pointer; border: 1px solid var(--border2); background: transparent; color: var(--text2); transition: all 0.15s; }
+  .btn-sm:hover { background: var(--surface2); }
+  .btn-sm.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-sm.primary:hover { opacity: 0.88; }
 
   .note-images { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-  .note-thumb {
-    width: 110px; height: 85px; border-radius: 8px; overflow: hidden;
-    border: 1px solid var(--border2); cursor: pointer; transition: border-color 0.15s;
-  }
+  .note-thumb { width: 110px; height: 85px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border2); cursor: pointer; transition: border-color 0.15s; }
   .note-thumb:hover { border-color: var(--accent); }
   .note-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-  .note-footer { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .note-footer { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
   .note-date { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; margin-left: auto; }
+  .expand-btn { font-size: 11px; color: var(--accent); cursor: pointer; background: none; border: none; font-family: 'Pretendard', sans-serif; padding: 0; }
 
   .empty { text-align: center; padding: 4rem 1rem; color: var(--text3); font-size: 14px; line-height: 2; }
 
   /* 라이트박스 */
-  .lightbox {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.92); z-index: 1000;
-    align-items: center; justify-content: center; cursor: pointer;
-  }
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; cursor: pointer; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: var(--radius); }
   .lightbox-close { position: absolute; top: 20px; right: 24px; color: white; font-size: 28px; cursor: pointer; opacity: 0.6; }
   .lightbox-close:hover { opacity: 1; }
 
-  /* 붙여넣기 힌트 토스트 */
-  .paste-hint {
-    position: fixed; top: 1.2rem; left: 50%; transform: translateX(-50%);
-    padding: 10px 18px; border-radius: var(--radius);
-    background: var(--accent-dim); color: var(--accent);
-    border: 1px solid #2a3d6a; font-size: 13px;
-    font-family: 'Pretendard', sans-serif;
-    z-index: 999; display: none; white-space: nowrap;
-  }
+  .paste-hint { position: fixed; top: 1.2rem; left: 50%; transform: translateX(-50%); padding: 10px 18px; border-radius: var(--radius); background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); font-size: 13px; font-family: 'Pretendard', sans-serif; z-index: 999; display: none; white-space: nowrap; }
   .paste-hint.show { display: block; }
 
-  .toast {
-    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    padding: 10px 20px; border-radius: var(--radius); font-size: 13px;
-    font-family: 'Pretendard', sans-serif; z-index: 999; display: none; white-space: nowrap;
-  }
-  .toast.ok { background: var(--green-dim); color: var(--green); border: 1px solid #0d3525; }
-  .toast.err { background: #2a0f0f; color: var(--red); border: 1px solid #3d1515; }
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: var(--radius); font-size: 13px; font-family: 'Pretendard', sans-serif; z-index: 999; display: none; white-space: nowrap; }
+  .toast.ok { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  .toast.err { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
 
   @media(max-width: 600px) {
     .app { padding: 1rem 1rem 3rem; }
@@ -247,7 +300,7 @@
   }
 </style>
 </head>
-<body>
+<body class="dark">
 
 <div class="paste-hint" id="pasteHint">이미지가 추가됐어요!</div>
 
@@ -257,9 +310,12 @@
       <div class="logo">Trading Notes</div>
       <div class="title">트레이딩 노트</div>
     </div>
-    <div class="stats">
-      <div class="stat"><div class="stat-num" id="totalCount">-</div><div class="stat-label">총 노트</div></div>
-      <div class="stat"><div class="stat-num" id="tickerCount">-</div><div class="stat-label">티커</div></div>
+    <div class="header-right">
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="다크/라이트 모드">🌙</button>
+      <div class="stats">
+        <div class="stat"><div class="stat-num" id="totalCount">-</div><div class="stat-label">총 노트</div></div>
+        <div class="stat"><div class="stat-num" id="tickerCount">-</div><div class="stat-label">티커</div></div>
+      </div>
     </div>
   </div>
 
@@ -268,6 +324,7 @@
     <span id="connText">Supabase 연결 중...</span>
   </div>
 
+  <!-- 입력 -->
   <div class="input-card">
     <div class="source-row">
       <span class="src-label">출처</span>
@@ -276,39 +333,47 @@
       <button class="src-btn" onclick="selectSource(this,'Twitter/X')">Twitter/X</button>
       <button class="src-btn" onclick="selectSource(this,'기타')">기타</button>
     </div>
-
-    <textarea id="noteInput"
-      placeholder="트레이딩 대화를 붙여넣으세요...&#10;티커($BTC, AAPL), 키워드(매수, 저항선, RSI 등)를 자동으로 감지합니다."
-      oninput="autoDetect()"></textarea>
-
-    <div class="img-area" id="imgArea"
-      ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+    <textarea id="noteInput" placeholder="트레이딩 대화를 붙여넣으세요...&#10;티커($BTC, AAPL), 키워드(매수, 저항선, RSI 등)를 자동으로 감지합니다." oninput="autoDetect()"></textarea>
+    <div class="img-area" id="imgArea" ondragover="onDragOver(event)" ondragleave="onDragLeave()" ondrop="onDrop(event)">
       <input type="file" accept="image/*" multiple onchange="onFileSelect(event)">
       <div class="img-area-label">
-        <span>이미지 첨부 —</span>
-        <span class="highlight">Ctrl+V</span> 붙여넣기
+        이미지 첨부 —
+        <span class="hl">Ctrl+V</span> 붙여넣기
         <span style="color:var(--text3)">또는</span>
-        <span class="highlight">드래그앤드롭</span>
+        <span class="hl">드래그앤드롭</span>
         <span style="color:var(--text3)">또는</span>
-        <span class="highlight">클릭</span>
+        <span class="hl">클릭</span>
       </div>
-      <div class="img-hint">차트 캡처 후 Ctrl+C → 아무 곳에서나 Ctrl+V 하면 바로 추가돼요</div>
+      <div class="img-hint">차트 캡처 후 Ctrl+C → 페이지 어디서든 Ctrl+V</div>
     </div>
     <div class="img-preview-list" id="previewList"></div>
-
-    <div class="auto-tags" id="autoTags">
-      <span class="at-label">// 태그 자동 감지</span>
-    </div>
+    <div class="auto-tags" id="autoTags"><span class="at-label">// 태그 자동 감지</span></div>
     <div class="save-row">
       <button class="btn" onclick="clearInput()">초기화</button>
       <button class="btn btn-save" id="saveBtn" onclick="saveNote()">저장하기</button>
     </div>
   </div>
 
-  <div class="filter-row">
-    <span class="filter-label">검색</span>
-    <input type="text" id="searchInput" placeholder="티커, 키워드, 본문 검색..." oninput="renderNotes()">
-    <button class="filter-clear" onclick="clearFilter()">전체보기</button>
+  <!-- 필터 & 검색 -->
+  <div class="filter-bar">
+    <div class="filter-row">
+      <span class="filter-label">검색</span>
+      <input type="text" id="searchInput" placeholder="티커, 키워드, 본문 검색..." oninput="applyFilters()">
+      <button class="filter-clear" onclick="clearAllFilters()">초기화</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">날짜</span>
+      <div class="date-filters">
+        <button class="date-btn" onclick="setDateFilter(this,'all')">전체</button>
+        <button class="date-btn active" onclick="setDateFilter(this,'today')">오늘</button>
+        <button class="date-btn" onclick="setDateFilter(this,'week')">이번 주</button>
+        <button class="date-btn" onclick="setDateFilter(this,'month')">이번 달</button>
+      </div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">티커</span>
+      <div class="ticker-bar" id="tickerBar"><span style="font-size:12px;color:var(--text3)">저장된 노트가 없습니다</span></div>
+    </div>
   </div>
 
   <div id="notesList" class="notes-list">
@@ -326,45 +391,33 @@
 const SUPABASE_URL = 'https://tewwzcohejmnkztwilzl.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRld3d6Y29oZWptbmt6dHdpbHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMjQ2NzksImV4cCI6MjA5MTkwMDY3OX0.8r6FZecsg-wTgGCbOkLTkpZVZZmfiKwEzaNHO6bEj8w';
 const BUCKET = 'trading-images';
-const H = {
-  'Content-Type': 'application/json',
-  'apikey': SUPABASE_KEY,
-  'Authorization': `Bearer ${SUPABASE_KEY}`,
-  'Prefer': 'return=representation'
-};
+const H = { 'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Prefer':'return=representation' };
 
-const KEYWORDS = [
-  '매수','매도','롱','숏','지지','저항','목표가','손절','익절','돌파','눌림',
-  '반등','하락','상승','오버나잇','스윙','데이트레이딩','단타','중장기','추세',
-  '이평선','골든크로스','데드크로스','볼린저','RSI','MACD','거래량','변동성',
-  '포지션','레버리지','선물','현물','코인','주식','ETF','옵션','차트','패턴',
-  '눌림목','피보나치','지지선','저항선','breakout','long','short','buy','sell','hold',
-  '비중','분할매수','분할매도','물타기','불타기','횡보','박스권','급등','급락'
-];
+const KEYWORDS = ['매수','매도','롱','숏','지지','저항','목표가','손절','익절','돌파','눌림','반등','하락','상승','오버나잇','스윙','데이트레이딩','단타','중장기','추세','이평선','골든크로스','데드크로스','볼린저','RSI','MACD','거래량','변동성','포지션','레버리지','선물','현물','코인','주식','ETF','옵션','차트','패턴','눌림목','피보나치','지지선','저항선','breakout','long','short','buy','sell','hold','비중','분할매수','분할매도','물타기','불타기','횡보','박스권','급등','급락'];
 const SKIP = new Set(['I','A','AM','PM','THE','AND','FOR','ARE','YOU','IT','IS','IN','ON','AT','TO','BE','DO','IF','OR','OF','WE','AS','BY','AN','SO','UP','NO','GO']);
 
 let notes = [];
 let selectedSource = 'Discord';
 let detectedTags = [];
 let pendingImages = [];
+let dateFilter = 'today';
+let tickerFilter = '';
+let expandedNotes = new Set();
+let editingId = null;
+let isDark = true;
 
 async function api(method, path, body) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    method, headers: H,
-    body: body ? JSON.stringify(body) : undefined
-  });
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { method, headers: H, body: body ? JSON.stringify(body) : undefined });
   if(!res.ok) throw new Error(await res.text());
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
 
 async function uploadImage(file) {
-  const ext = file.name ? file.name.split('.').pop() : 'png';
+  const ext = (file.name||'img.png').split('.').pop();
   const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
-    method: 'POST',
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': file.type || 'image/png' },
-    body: file
+    method:'POST', headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':file.type||'image/png'}, body:file
   });
   if(!res.ok) throw new Error('이미지 업로드 실패');
   return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`;
@@ -372,8 +425,8 @@ async function uploadImage(file) {
 
 async function load() {
   try {
-    notes = await api('GET', 'notes?order=id.desc') || [];
-    setConn(true); renderNotes(); updateStats();
+    notes = await api('GET','notes?order=id.desc') || [];
+    setConn(true); applyFilters(); updateStats(); renderTickerBar();
   } catch(e) {
     setConn(false);
     document.getElementById('notesList').innerHTML = '<div class="empty">Supabase 연결 실패.<br>인터넷 연결을 확인해주세요.</div>';
@@ -381,193 +434,234 @@ async function load() {
 }
 
 function setConn(ok) {
-  document.getElementById('connDot').className = 'conn-dot ' + (ok ? 'ok' : 'err');
-  document.getElementById('connText').textContent = ok
-    ? 'Supabase 연결됨 — 집·회사·모바일 어디서든 실시간 동기화'
-    : '연결 실패 — 인터넷을 확인해주세요';
+  document.getElementById('connDot').className = 'conn-dot '+(ok?'ok':'err');
+  document.getElementById('connText').textContent = ok ? 'Supabase 연결됨 — 집·회사·모바일 어디서든 실시간 동기화' : '연결 실패 — 인터넷을 확인해주세요';
 }
 
+// 테마
+function toggleTheme() {
+  isDark = !isDark;
+  document.body.className = isDark ? 'dark' : 'light';
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+// 출처 선택
 function selectSource(btn, src) {
   document.querySelectorAll('.src-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   selectedSource = src;
 }
 
+// 자동 태그 감지
 function autoDetect() {
   const text = document.getElementById('noteInput').value;
   detectedTags = [];
   const tickerSet = new Set();
   (text.match(/\$[A-Z]{1,6}/g)||[]).forEach(t => tickerSet.add(t));
-  (text.match(/\b[A-Z]{2,6}(?:\/[A-Z]{2,6})?\b/g)||[])
-    .filter(t => !SKIP.has(t) && t.length >= 2)
-    .forEach(t => tickerSet.add(t));
-  [...tickerSet].slice(0,10).forEach(t => detectedTags.push({text:t,type:'ticker'}));
-  KEYWORDS.forEach(kw => { if(text.toLowerCase().includes(kw.toLowerCase())) detectedTags.push({text:kw,type:'keyword'}); });
+  (text.match(/\b[A-Z]{2,6}(?:\/[A-Z]{2,6})?\b/g)||[]).filter(t=>!SKIP.has(t)&&t.length>=2).forEach(t=>tickerSet.add(t));
+  [...tickerSet].slice(0,10).forEach(t=>detectedTags.push({text:t,type:'ticker'}));
+  KEYWORDS.forEach(kw=>{if(text.toLowerCase().includes(kw.toLowerCase()))detectedTags.push({text:kw,type:'keyword'});});
   const c = document.getElementById('autoTags');
-  if(!detectedTags.length) { c.innerHTML='<span class="at-label">// 태그 자동 감지</span>'; return; }
-  c.innerHTML = '<span class="at-label">// 감지됨</span>' + detectedTags.map(t=>`<span class="tag tag-${t.type}">${esc(t.text)}</span>`).join('');
+  if(!detectedTags.length){c.innerHTML='<span class="at-label">// 태그 자동 감지</span>';return;}
+  c.innerHTML='<span class="at-label">// 감지됨</span>'+detectedTags.map(t=>`<span class="tag tag-${t.type}">${esc(t.text)}</span>`).join('');
 }
 
-// Ctrl+V 클립보드 붙여넣기
-document.addEventListener('paste', (e) => {
-  const items = [...(e.clipboardData?.items || [])];
-  const imgItems = items.filter(item => item.type.startsWith('image/'));
-  if(!imgItems.length) return;
+// 이미지
+document.addEventListener('paste', e => {
+  const imgs = [...(e.clipboardData?.items||[])].filter(i=>i.type.startsWith('image/'));
+  if(!imgs.length) return;
   e.preventDefault();
-  imgItems.forEach(item => {
-    const file = item.getAsFile();
-    if(file) addFile(file);
-  });
+  imgs.forEach(i=>{const f=i.getAsFile();if(f)addFile(f);});
   showPasteHint();
 });
+function onDragOver(e){e.preventDefault();document.getElementById('imgArea').classList.add('dragover');}
+function onDragLeave(){document.getElementById('imgArea').classList.remove('dragover');}
+function onDrop(e){e.preventDefault();document.getElementById('imgArea').classList.remove('dragover');[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/')).forEach(addFile);}
+function onFileSelect(e){[...e.target.files].forEach(addFile);e.target.value='';}
+function addFile(file){pendingImages.push({file,previewUrl:URL.createObjectURL(file)});renderPreviews();}
+function renderPreviews(){document.getElementById('previewList').innerHTML=pendingImages.map((item,i)=>`<div class="img-preview-item"><img src="${item.previewUrl}"><button class="img-remove" onclick="removePreview(${i})">✕</button></div>`).join('');}
+function removePreview(i){URL.revokeObjectURL(pendingImages[i].previewUrl);pendingImages.splice(i,1);renderPreviews();}
+function showPasteHint(){const el=document.getElementById('pasteHint');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);}
 
-// 드래그앤드롭
-function onDragOver(e) { e.preventDefault(); document.getElementById('imgArea').classList.add('dragover'); }
-function onDragLeave() { document.getElementById('imgArea').classList.remove('dragover'); }
-function onDrop(e) {
-  e.preventDefault();
-  document.getElementById('imgArea').classList.remove('dragover');
-  [...e.dataTransfer.files].filter(f => f.type.startsWith('image/')).forEach(addFile);
-}
-function onFileSelect(e) { [...e.target.files].forEach(addFile); e.target.value=''; }
-
-function addFile(file) {
-  const previewUrl = URL.createObjectURL(file);
-  pendingImages.push({ file, previewUrl, id: Date.now() + Math.random() });
-  renderPreviews();
-}
-
-function renderPreviews() {
-  document.getElementById('previewList').innerHTML = pendingImages.map((item, i) => `
-    <div class="img-preview-item">
-      <img src="${item.previewUrl}" alt="">
-      <button class="img-remove" onclick="removePreview(${i})">✕</button>
-    </div>`).join('');
-}
-
-function removePreview(i) {
-  URL.revokeObjectURL(pendingImages[i].previewUrl);
-  pendingImages.splice(i, 1);
-  renderPreviews();
-}
-
-function showPasteHint() {
-  const el = document.getElementById('pasteHint');
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2000);
-}
-
+// 저장
 async function saveNote() {
   const text = document.getElementById('noteInput').value.trim();
-  if(!text && pendingImages.length === 0) return;
+  if(!text && pendingImages.length===0) return;
   const btn = document.getElementById('saveBtn');
-  btn.disabled = true;
-  btn.textContent = pendingImages.length > 0 ? '이미지 업로드 중...' : '저장 중...';
+  btn.disabled=true; btn.textContent=pendingImages.length>0?'이미지 업로드 중...':'저장 중...';
   try {
-    const imageUrls = [];
-    for(const item of pendingImages) {
-      const url = await uploadImage(item.file);
-      imageUrls.push(url);
-    }
-    btn.textContent = '저장 중...';
-    const note = {
-      id: Date.now(),
-      text,
-      source: selectedSource,
-      tags: detectedTags,
-      images: imageUrls,
-      date: new Date().toLocaleDateString('ko-KR', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})
-    };
-    await api('POST', 'notes', note);
+    const imageUrls=[];
+    for(const item of pendingImages){imageUrls.push(await uploadImage(item.file));}
+    btn.textContent='저장 중...';
+    const note={id:Date.now(),text,source:selectedSource,tags:detectedTags,images:imageUrls,date:new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),ts:Date.now()};
+    await api('POST','notes',note);
     notes.unshift(note);
-    clearInput(); renderNotes(); updateStats();
-    toast('저장했습니다!', false);
-  } catch(e) {
-    toast('저장 실패: ' + e.message, true);
-  }
-  btn.disabled = false;
-  btn.textContent = '저장하기';
+    clearInput(); applyFilters(); updateStats(); renderTickerBar();
+    toast('저장했습니다!',false);
+  } catch(e){toast('저장 실패: '+e.message,true);}
+  btn.disabled=false; btn.textContent='저장하기';
 }
 
+// 삭제
 async function deleteNote(id) {
   if(!confirm('이 노트를 삭제할까요?')) return;
   try {
-    await api('DELETE', `notes?id=eq.${id}`);
-    notes = notes.filter(n => n.id !== id);
-    renderNotes(); updateStats();
-    toast('삭제했습니다.', false);
-  } catch(e) { toast('삭제 실패.', true); }
+    await api('DELETE',`notes?id=eq.${id}`);
+    notes=notes.filter(n=>n.id!==id);
+    applyFilters(); updateStats(); renderTickerBar();
+    toast('삭제했습니다.',false);
+  } catch(e){toast('삭제 실패.',true);}
 }
 
-function clearInput() {
-  document.getElementById('noteInput').value = '';
-  detectedTags = [];
-  pendingImages.forEach(i => URL.revokeObjectURL(i.previewUrl));
-  pendingImages = [];
-  document.getElementById('previewList').innerHTML = '';
-  document.getElementById('autoTags').innerHTML = '<span class="at-label">// 태그 자동 감지</span>';
+// 편집
+function startEdit(id) {
+  editingId = id;
+  renderNotes(getFiltered());
+}
+async function saveEdit(id) {
+  const val = document.getElementById(`edit-${id}`)?.value.trim();
+  if(!val) return;
+  try {
+    await api('PATCH',`notes?id=eq.${id}`,{text:val});
+    const note = notes.find(n=>n.id===id);
+    if(note) note.text = val;
+    editingId = null;
+    applyFilters();
+    toast('수정했습니다.',false);
+  } catch(e){toast('수정 실패.',true);}
+}
+function cancelEdit(){editingId=null;renderNotes(getFiltered());}
+
+// 펼치기/접기
+function toggleExpand(id){
+  if(expandedNotes.has(id)) expandedNotes.delete(id);
+  else expandedNotes.add(id);
+  renderNotes(getFiltered());
 }
 
-function clearFilter() { document.getElementById('searchInput').value=''; renderNotes(); }
-function filterByTag(text) { document.getElementById('searchInput').value=text; renderNotes(); }
+// 필터
+function setDateFilter(btn, val) {
+  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  dateFilter = val;
+  applyFilters();
+}
+function setTickerFilter(ticker) {
+  tickerFilter = tickerFilter === ticker ? '' : ticker;
+  renderTickerBar();
+  applyFilters();
+}
+function clearAllFilters() {
+  document.getElementById('searchInput').value='';
+  dateFilter='all';
+  tickerFilter='';
+  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.date-btn').classList.add('active');
+  renderTickerBar();
+  applyFilters();
+}
 
-function renderNotes() {
+function getFiltered() {
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  const filtered = q
-    ? notes.filter(n =>
-        (n.text||'').toLowerCase().includes(q) ||
-        (n.tags||[]).some(t=>t.text.toLowerCase().includes(q)) ||
-        (n.source||'').toLowerCase().includes(q))
-    : notes;
+  const now = new Date();
+  return notes.filter(n => {
+    // 날짜 필터
+    if(dateFilter !== 'all') {
+      const ts = n.ts || n.id;
+      const d = new Date(ts);
+      if(dateFilter==='today' && d.toDateString()!==now.toDateString()) return false;
+      if(dateFilter==='week') {
+        const weekAgo = new Date(now); weekAgo.setDate(now.getDate()-7);
+        if(d < weekAgo) return false;
+      }
+      if(dateFilter==='month') {
+        if(d.getMonth()!==now.getMonth()||d.getFullYear()!==now.getFullYear()) return false;
+      }
+    }
+    // 티커 필터
+    if(tickerFilter && !(n.tags||[]).some(t=>t.type==='ticker'&&t.text===tickerFilter)) return false;
+    // 텍스트 검색
+    if(q && !(n.text||'').toLowerCase().includes(q) && !(n.tags||[]).some(t=>t.text.toLowerCase().includes(q)) && !(n.source||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function applyFilters() { renderNotes(getFiltered()); }
+
+function filterByTag(text) {
+  document.getElementById('searchInput').value = text;
+  applyFilters();
+}
+
+function renderNotes(filtered) {
   const el = document.getElementById('notesList');
   if(!filtered.length) {
-    el.innerHTML = `<div class="empty">${notes.length?'검색 결과가 없습니다.':'아직 저장된 노트가 없습니다.<br>위에서 대화를 붙여넣고 저장해보세요!'}</div>`;
+    el.innerHTML=`<div class="empty">${notes.length?'조건에 맞는 노트가 없습니다.':'아직 저장된 노트가 없습니다.<br>위에서 대화를 붙여넣고 저장해보세요!'}</div>`;
     return;
   }
-  el.innerHTML = filtered.map(n => `
+  el.innerHTML = filtered.map(n => {
+    const isEditing = editingId === n.id;
+    const isExpanded = expandedNotes.has(n.id);
+    const longText = (n.text||'').length > 300;
+    return `
     <div class="note-card">
       <div class="note-top">
-        <div class="note-text">${n.text ? esc(n.text.length>400?n.text.slice(0,400)+'...':n.text) : '<span style="color:var(--text3);font-size:13px">텍스트 없음</span>'}</div>
-        <button class="del-btn" onclick="deleteNote(${n.id})">✕</button>
+        ${isEditing
+          ? `<div style="flex:1"><textarea class="edit-textarea" id="edit-${n.id}">${esc(n.text||'')}</textarea><div class="edit-actions"><button class="btn-sm" onclick="cancelEdit()">취소</button><button class="btn-sm primary" onclick="saveEdit(${n.id})">저장</button></div></div>`
+          : `<div class="note-text ${longText&&!isExpanded?'collapsed':''}">${n.text?esc(n.text):'<span style="color:var(--text3);font-size:13px">텍스트 없음</span>'}</div>`
+        }
+        ${!isEditing?`<div class="note-actions"><button class="icon-btn edit" onclick="startEdit(${n.id})" title="편집">✎</button><button class="icon-btn del" onclick="deleteNote(${n.id})" title="삭제">✕</button></div>`:''}
       </div>
-      ${(n.images||[]).length ? `
-        <div class="note-images">
-          ${n.images.map(url=>`<div class="note-thumb" onclick="openLightbox('${url}')"><img src="${url}" alt="차트"></div>`).join('')}
-        </div>` : ''}
+      ${(n.images||[]).length?`<div class="note-images">${n.images.map(url=>`<div class="note-thumb" onclick="openLightbox('${url}')"><img src="${url}" alt="차트"></div>`).join('')}</div>`:''}
       <div class="note-footer">
         <span class="tag tag-source" onclick="filterByTag('${esc(n.source)}')">${esc(n.source)}</span>
         ${(n.tags||[]).map(t=>`<span class="tag tag-${t.type}" onclick="filterByTag('${esc(t.text)}')">${esc(t.text)}</span>`).join('')}
+        ${longText&&!isEditing?`<button class="expand-btn" onclick="toggleExpand(${n.id})">${isExpanded?'접기':'더보기'}</button>`:''}
         <span class="note-date">${n.date}</span>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+}
+
+function renderTickerBar() {
+  const tickers = [...new Set(notes.flatMap(n=>(n.tags||[]).filter(t=>t.type==='ticker').map(t=>t.text)))];
+  const bar = document.getElementById('tickerBar');
+  if(!tickers.length){bar.innerHTML='<span style="font-size:12px;color:var(--text3)">없음</span>';return;}
+  bar.innerHTML = tickers.map(t=>`<span class="ticker-tag ${tickerFilter===t?'active':''}" onclick="setTickerFilter('${t}')">${t}</span>`).join('');
 }
 
 function updateStats() {
-  document.getElementById('totalCount').textContent = notes.length;
-  const tickers = new Set(notes.flatMap(n=>(n.tags||[]).filter(t=>t.type==='ticker').map(t=>t.text)));
-  document.getElementById('tickerCount').textContent = tickers.size;
+  document.getElementById('totalCount').textContent=notes.length;
+  const tickers=new Set(notes.flatMap(n=>(n.tags||[]).filter(t=>t.type==='ticker').map(t=>t.text)));
+  document.getElementById('tickerCount').textContent=tickers.size;
 }
 
-function openLightbox(url) {
-  document.getElementById('lightboxImg').src = url;
-  document.getElementById('lightbox').classList.add('open');
+function clearInput() {
+  document.getElementById('noteInput').value='';
+  detectedTags=[];
+  pendingImages.forEach(i=>URL.revokeObjectURL(i.previewUrl));
+  pendingImages=[];
+  document.getElementById('previewList').innerHTML='';
+  document.getElementById('autoTags').innerHTML='<span class="at-label">// 태그 자동 감지</span>';
 }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
-document.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape') closeLightbox();
-});
+function openLightbox(url){document.getElementById('lightboxImg').src=url;document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function toast(msg,isErr){
+  const el=document.getElementById('toast');
+  el.className='toast '+(isErr?'err':'ok');
+  el.textContent=msg; el.style.display='block';
+  setTimeout(()=>el.style.display='none',3000);
 }
-function toast(msg, isErr) {
-  const el = document.getElementById('toast');
-  el.className = 'toast '+(isErr?'err':'ok');
-  el.textContent = msg;
-  el.style.display = 'block';
-  setTimeout(()=>el.style.display='none', 3000);
-}
+
+// 테마 복원
+const savedTheme = localStorage.getItem('theme');
+if(savedTheme==='light'){isDark=false;document.body.className='light';document.getElementById('themeBtn').textContent='☀️';}
 
 load();
 </script>
